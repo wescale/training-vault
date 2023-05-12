@@ -1,8 +1,6 @@
 # Lab 08 - Vault Policies
 
-## Challenge
-
-### olution
+## Challenge - Solution
 
 Create policy HCL file
 
@@ -84,3 +82,6 @@ Finally, log back in with root token
 ```bash
 vault login $(grep 'Initial Root Token:' key.txt | awk '{print $NF}')
 ```
+
+
+[Back](tutorial.md)

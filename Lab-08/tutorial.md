@@ -224,6 +224,7 @@ vault policy list -output-curl-string
 vault auth list -output-curl-string
 ```
 
+[Challenge Solution](challenge-solution.md)
 
 ## Clean Up
 
