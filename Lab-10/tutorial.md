@@ -60,15 +60,15 @@ Create a short-lived token and see how agent manages its lifecycle:
 VAULT_TOKEN=$(cat approleToken) vault token create -ttl=30s -explicit-max-ttl=2m
 ```
 
-Key                  Value
----                  -----
-token                hvs.CAESICyZQi6cbmhC44GII2plkU4HwzyEuJFyrgChKxVDz51XGh4KHGh2cy5yM3U0M21xVE9sSENoR3BpaGJGRDVtd3M
-token_accessor       T595xDRvmAtg5RvPW3Cr4U3G
-token_duration       30s
-token_renewable      true
-token_policies       ["db_readonly" "default"]
-identity_policies    []
-policies             ["db_readonly" "default"]
+Key                 |Value
+---                 |-----
+token               |hvs.CAESICyZQi6cbmhC44GII2plkU4HwzyEuJFyrgChKxVDz51XGh4KHGh2cy5yM3U0M21xVE9sSENoR3BpaGJGRDVtd3M
+token_accessor      |T595xDRvmAtg5RvPW3Cr4U3G
+token_duration      |30s
+token_renewable     |true
+token_policies      |["db_readonly" "default"]
+identity_policies   |[]
+policies            |["db_readonly" "default"]
 
 Check Logs...
 
@@ -78,13 +78,13 @@ Test, your readonly settings
 VAULT_TOKEN=$(cat approleToken) vault read database/creds/readonly
 ```
 
-Key                Value
----                -----
-lease_id           database/creds/readonly/i11CtZulo3cuiKG8KYP6pxPu
-lease_duration     1h
-lease_renewable    true
-password           7GyqfqEDcc82t7Fu8ag-
-username           v-approle-readonly-FBkGQf0b9rPRW2TinTtI-1683899750
+Key               |Value
+---               |-----
+lease_id          |database/creds/readonly/i11CtZulo3cuiKG8KYP6pxPu
+lease_duration    |1h
+lease_renewable   |true
+password          |7GyqfqEDcc82t7Fu8ag-
+username          |v-approle-readonly-FBkGQf0b9rPRW2TinTtI-1683899750
 
 Check 
 
