@@ -13,7 +13,7 @@ docker network create pg
 
 docker container run --network pg  --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
 
-docker container run --network pg  --name postgres -e POSTGRES_PASSWORD="password" postgres
+docker container run --network pg -d --name postgres -e POSTGRES_PASSWORD="password" postgres
 
 docker network connect pg server01
 docker network connect pg postgres
