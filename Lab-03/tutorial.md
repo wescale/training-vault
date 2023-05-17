@@ -1,6 +1,6 @@
 # Lab 03 - Dynamic Secret Engine
 
-<walkthrough-tutorial-duration duration="25.0"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-duration duration="35.0"></walkthrough-tutorial-duration>
 
 ## Description
 
