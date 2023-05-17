@@ -1,4 +1,4 @@
-# Lab 10 - Cluster Deployment
+# Lab 11 - Cluster Deployment
 
 <walkthrough-tutorial-duration duration="45.0"></walkthrough-tutorial-duration>
 
@@ -198,11 +198,11 @@ Start generation recovery token from OTP
 VAULT_ADDR=http://127.0.0.1:8230 vault operator generate-root -init -otp=<your otp token> -recovery-token
 ```
 
-Nonce         8d269b33-295d-679f-e0f4-9c954df65303
-Started       true
-Progress      0/1
-Complete      false
-OTP Length    28
+Nonce        |8d269b33-295d-679f-e0f4-9c954df65303
+Started      |true
+Progress     |0/1
+Complete     |false
+OTP|Length   |28
 
 
 Then generate encoded token
@@ -215,11 +215,11 @@ Found Recovery key in early step in file `key-vault2.txt`
 
 Operation nonce: 8d269b33-295d-679f-e0f4-9c954df65303
 Unseal Key (will be hidden): 
-Nonce            8d269b33-295d-679f-e0f4-9c954df65303
-Started          true
-Progress         1/1
-Complete         true
-Encoded Token    JwUkehkVFRQMNzktHycHXjgDDEETYgxrGSV3AA
+Nonce           |8d269b33-295d-679f-e0f4-9c954df65303
+Started         |true
+Progress        |1/1
+Complete        |true
+Encoded|Token   |JwUkehkVFRQMNzktHycHXjgDDEETYgxrGSV3AA
 
 Complete creation
 
