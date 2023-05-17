@@ -1,6 +1,6 @@
 # Lab 04 - Transit Secret Engine
 
-<walkthrough-tutorial-duration duration="25.0"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-duration duration="20.0"></walkthrough-tutorial-duration>
 
 ## Description
 
