@@ -1,6 +1,6 @@
 # Lab 05 - Cubbyhole Secret Engine
 
-<walkthrough-tutorial-duration duration="25.0"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-duration duration="20.0"></walkthrough-tutorial-duration>
 
 ## Description
 
@@ -26,15 +26,15 @@ Create a non-privileged token
 vault token create -policy=default
 ```
 
-Key                  Value
----                  -----
-token                hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI
-token_accessor       Yr4GpxxFVVJ7I80kKDPpqJ2K
-token_duration       768h
-token_renewable      true
-token_policies       ["default"]
-identity_policies    []
-policies             ["default"]
+Key                 |Value
+---                 |-----
+token               |hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI
+token_accessor      |Yr4GpxxFVVJ7I80kKDPpqJ2K
+token_duration      |768h
+token_renewable     |true
+token_policies      |["default"]
+identity_policies   |[]
+policies            |["default"]
 
 Open a new shell then switch user (for example switch to root) and login to vault with non-priviliged token:
 
@@ -51,15 +51,15 @@ Success! You are now authenticated. The token information displayed below
 is already stored in the token helper. You do NOT need to run "vault login"
 again. Future Vault requests will automatically use this token.
 
-Key                  Value
----                  -----
-token                hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI
-token_accessor       Yr4GpxxFVVJ7I80kKDPpqJ2K
-token_duration       767h58m29s
-token_renewable      true
-token_policies       ["default"]
-identity_policies    []
-policies             ["default"]
+Key                 |Value
+---                 |-----
+token               |hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI
+token_accessor      |Yr4GpxxFVVJ7I80kKDPpqJ2K
+token_duration      |767h58m29s
+token_renewable     |true
+token_policies      |["default"]
+identity_policies   |[]
+policies            |["default"]
 
 Store a secret to your private cubbyhole path
 
@@ -89,13 +89,13 @@ vault kv put secret/wescale company="wescale"
 vault kv get -wrap-ttl=360 secret/wescale
 ```
 
-Key                              Value
----                              -----
-wrapping_token:                  hvs.CAESII0xgMCYqdFUtuLP2kzR55H-ZTpeD1BXikGFod_8XNnlGh4KHGh2cy5HUjdMakM2Q1B3Y1N2R21kUmpkMDFWSUc
-wrapping_accessor:               DqpseDHVu8ulRT43juRlL8gA
-wrapping_token_ttl:              6m
-wrapping_token_creation_time:    2023-03-31 14:39:06.778469946 +0000 UTC
-wrapping_token_creation_path:    secret/data/wescale
+Key                             |Value
+---                             |-----
+wrapping_token:                 |hvs.CAESII0xgMCYqdFUtuLP2kzR55H-ZTpeD1BXikGFod_8XNnlGh4KHGh2cy5HUjdMakM2Q1B3Y1N2R21kUmpkMDFWSUc
+wrapping_accessor:              |DqpseDHVu8ulRT43juRlL8gA
+wrapping_token_ttl:             |6m
+wrapping_token_creation_time:   |2023-03-31|14:39:06.778469946 +0000|UTC
+wrapping_token_creation_path:   |secret/data/wescale
 
 ## Task 3: Unwrap the wrapped Secret
 
@@ -115,15 +115,15 @@ Success! You are now authenticated. The token information displayed below
 is already stored in the token helper. You do NOT need to run "vault login"
 again. Future Vault requests will automatically use this token.
 
-Key                  Value
----                  -----
-token                hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI
-token_accessor       Yr4GpxxFVVJ7I80kKDPpqJ2K
-token_duration       767h58m29s
-token_renewable      true
-token_policies       ["default"]
-identity_policies    []
-policies             ["default"]
+Key                 |Value
+---                 |-----
+token               |hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI
+token_accessor      |Yr4GpxxFVVJ7I80kKDPpqJ2K
+token_duration      |767h58m29s
+token_renewable     |true
+token_policies      |["default"]
+identity_policies   |[]
+policies            |["default"]
 
 Try to read secret/wescale
 
@@ -146,11 +146,6 @@ vault unwrap hvs.CAESII0xgMCYqdFUtuLP2kzR55H-ZTpeD1BXikGFod_8XNnlGh4KHGh2cy5HUjd
 What happens if no one use the token before expired period or already use the token ?
 
 ## Task 4: Response wrapping via the web UI
-
-
-
-## Challenge: Setup database secret engine via API
-
 
 
 ## Clean Up
