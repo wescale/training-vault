@@ -1,6 +1,6 @@
 # Lab 02 - Static Secret
 
-<walkthrough-tutorial-duration duration="25.0"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-duration duration="35.0"></walkthrough-tutorial-duration>
 
 ## Description
 
@@ -151,30 +151,37 @@ vault kv get secret/company
 
 Vault help you to create curl command to access Vault through API
 
+```bash
 vault kv put -output-curl-string secret/apikey/google apikey="my-api-key"
 
-curl -X PUT -H "X-Vault-Token: $(vault print token)" \
--d '{"data":{"apikey":"my-api-key"},"options":{}}' \
-http://127.0.0.1:8200/v1/secret/data/apikey/google | jq
+```
+
+> curl -X PUT -H "X-Vault-Token: $(vault print token)" \
+> -d '{"data":{"apikey":"my-api-key"},"options":{}}' \
+> http://127.0.0.1:8200/v1/secret/data/apikey/google | jq
 
 
 Generate a command to get secret path
 
+```bash
 vault kv get -output-curl-string secret/apikey/google
 curl -H "X-Vault-Token: $(vault print token)" \
 http://127.0.0.1:8200/v1/secret/data/apikey/google | jq
 
 With jq you can extract a portion of response
 
-curl -H "X-Vault-Token: $(vault print token)" \
-http://127.0.0.1:8200/v1/secret/data/apikey/google | jq ".data.data.apikey"
+> curl -H "X-Vault-Token: $(vault print token)" \
+> http://127.0.0.1:8200/v1/secret/data/apikey/google | jq ".data.data.apikey"
 
 
 Generate delete command
 
+```bash
 vault kv delete -output-curl-string secret/apikey/google
- curl -X DELETE -H "X-Vault-Token: $(vault print token)" \
-http://127.0.0.1:8200/v1/secret/data/apikey/google
+```
+
+> curl -X DELETE -H "X-Vault-Token: $(vault print token)" \
+> http://127.0.0.1:8200/v1/secret/data/apikey/google
 
 Visit UI to show your secret
 
