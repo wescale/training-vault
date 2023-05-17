@@ -4,20 +4,24 @@
 
 ## Description
 
-Task 1: Generate a root token
-Task 2: Rekeying Vault
-Task 3: Rotate the encryption key
+* Task 1: Generate a root token
+* Task 2: Rekeying Vault
+* Task 3: Rotate the encryption key
 
 
 ## Init Lab
 
+```bash
 chmod +x vault.sh
 ./vault.sh
+```
 
 
+```bash
 export VAULT_ADDR='http://127.0.0.1:8200' 
 
 vault secrets list -detailed
+```
 
 ## Task 1: Generate a root token
 
@@ -46,11 +50,11 @@ vault operator generate-root -init -otp=$(cat otp.txt) -format=json \
 vault operator generate-root -nonce=$(cat nonce.txt) $(grep 'Key 1:' key.txt | awk '{print $NF}')
 ```
 
-Nonce            4efc1fa4-4ad9-18c2-15a9-460a798a6808
-Started          true
-Progress         1/1
-Complete         true
-Encoded Token    DSUVFiR4FAISYhtiHDlZPwYqBh8/CiItCgseKw
+Nonce           |4efc1fa4-4ad9-18c2-15a9-460a798a6808
+Started         |true
+Progress        |1/1
+Complete        |true
+Encoded|Token   |DSUVFiR4FAISYhtiHDlZPwYqBh8/CiItCgseKw
 
 Decode the encoded token
 
@@ -62,15 +66,15 @@ vault operator generate-root -decode=DSUVFiR4FAISYhtiHDlZPwYqBh8/CiItCgseKw \
 Login with your new token
 
 
-Key                  Value
----                  -----
-token                hvs.e1wDB8T6tR5eRx5wEPWGoaxE
-token_accessor       bMbdBTpaoPX3XVEAbZxIQci6
-token_duration       ∞
-token_renewable      false
-token_policies       ["root"]
-identity_policies    []
-policies             ["root"]
+Key                 |Value
+---                 |-----
+token               |hvs.e1wDB8T6tR5eRx5wEPWGoaxE
+token_accessor      |bMbdBTpaoPX3XVEAbZxIQci6
+token_duration      |∞
+token_renewable     |false
+token_policies      |["root"]
+identity_policies   |[]
+policies            |["root"]
 
 ## Task 2: Rekeying Vault
 
