@@ -1,6 +1,6 @@
 # Lab 01 - Vault Installation & Configuration
 
-<walkthrough-tutorial-duration duration="25.0"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-duration duration="30.0"></walkthrough-tutorial-duration>
 
 ## Description
 
