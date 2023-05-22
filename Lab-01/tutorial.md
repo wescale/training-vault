@@ -4,9 +4,9 @@
 
 ## Description
 
-Task 1: Configure and setup Vault
-Task 2: Connect to Vault UI
-Task 3: Explorer K/V Secrets Engine
+* Task 1: Configure and setup Vault
+* Task 2: Connect to Vault UI
+* Task 3: Explorer K/V Secrets Engine
 
 ## Install Vault with Package Manager
 
@@ -30,9 +30,11 @@ Start Vault server (with config)
 
 ```bash
 sudo vault server -config=vault.hcl
+
+export VAULT_ADDR='http://127.0.0.1:8200' 
 ```
 
-open http://127.0.0.1:8200
+open [http://127.0.0.1:8200]()
 
 ## Init Vault
 
@@ -52,13 +54,14 @@ vault operator init -h
 >      Number of key shares required to reconstruct the root key. This must be
 >      less than or equal to -key-shares. This is aliased as "-t".
 
-For the purpose, we will use 1 key share and 1 key threshold
+For the purpose, we will use 1 key share and 1 key threshold, open in a new shell
 
 ```bash
+export VAULT_ADDR='http://127.0.0.1:8200' 
 vault operator init -key-shares=1 -key-threshold=1 > key.txt
 ```
 
-refresh http://127.0.0.1:8200
+refresh [http://127.0.0.1:8200]()
 
 Unseal Vault
 
