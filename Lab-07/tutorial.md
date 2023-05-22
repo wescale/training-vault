@@ -1,4 +1,4 @@
-# Lab 05 - Cubbyhole Secret Engine
+# Lab 07 - Vault Authentication and Tokens
 
 <walkthrough-tutorial-duration duration="40.0"></walkthrough-tutorial-duration>
 
@@ -12,8 +12,6 @@
 * Task 6: Enable Username and Password Auth Method
 
 * Challenge: Generate batch tokens
-
-
 
 ## Init Lab
 
