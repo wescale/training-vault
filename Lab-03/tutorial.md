@@ -27,6 +27,7 @@ Activate Dynamic secret for database
 ```bash
 vault secrets enable database
 vault path-help database/
+```
 
 Configure 
 
@@ -52,6 +53,8 @@ cat << EOF > rotation.sql
 ALTER USER "{{name}}" WITH PASSWORD '{{password}}';
 EOF
 ```
+
+## Task 2: Enable and configure a database secret engine
 
 Create static in Vault
 
@@ -107,12 +110,12 @@ Force renew password
 
 ```bash
 vault write -f database/rotate-role/education
+```
 
 ## Task 3: Generate dynamic readonly credentials
 
 Vault requires that you define the SQL to create credentials associated with this dynamic, readonly role. The SQL required to generate this role can be found in the file
 readonly.sql
-```
 
 ```bash
 cat <<EOF > readonly.sql
@@ -150,6 +153,8 @@ docker container exec -it postgres psql -U postgres
 
 \du
 ```
+
+## Task 4: Revoke leases
 
 Renew lease
 
