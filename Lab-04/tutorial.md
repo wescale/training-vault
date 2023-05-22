@@ -4,22 +4,29 @@
 
 ## Description
 
-Task 1: Configure transit secret engine
-Task 2: Encrypt secrets
-Task 3: Decrypt a cipher-text
-Task 4: Rotate the encryption Key
-Task 5: Update the key configuration
-Task 6: Encrypt data via web UI
+* Task 1: Configure transit secret engine
+* Task 2: Encrypt secrets
+* Task 3: Decrypt a cipher-text
+* Task 4: Rotate the encryption Key
+* Task 5: Update the key configuration
+* Task 6: Encrypt data via web UI
 
-Challenge: Sign and validate data
+* Challenge: Sign and validate data
 
 ## Init Lab
 
+```bash
 chmod +x vault.sh
 ./vault.sh
+```
+
+Test your Vault
+
+```bash
 export VAULT_ADDR='http://127.0.0.1:8200' 
 
 vault secrets list -detailed
+```
 
 ## Task 1: Configure transit secret engine
 
@@ -43,10 +50,10 @@ Any client with valid token (with proper permission) can send data (base64 encod
 vault write transit/encrypt/cards plaintext=$(base64 <<< "credit-card-number")
 ```
 
-Key            Value
----            -----
-ciphertext     vault:v1:x7B0eKS9JWnJ07rdNGb9gqSjqBnyUefvRy5IGAYgH0g509BxURetCZRSxwObFO8=
-key_version    1
+Key           |Value
+---           |-----
+ciphertext    |vault:v1:x7B0eKS9JWnJ07rdNGb9gqSjqBnyUefvRy5IGAYgH0g509BxURetCZRSxwObFO8=
+key_version   |1
 
 ## Task 3: Decode Secrets
 
@@ -83,10 +90,10 @@ Create a new secret (plaintext: `visa-card-number`)
 vault write transit/encrypt/cards plaintext=$(base64 <<< "visa-card-number")
 ```
 
-Key            Value
----            -----
-ciphertext     vault:v2:TEPjRCXHZvWg4ctAFgsSBJG6j08jFNR+z3c2ImlVpidQ8G2kaR4sPxcWLBVm
-key_version    2
+Key           |Value
+---           |-----
+ciphertext    |vault:v2:TEPjRCXHZvWg4ctAFgsSBJG6j08jFNR+z3c2ImlVpidQ8G2kaR4sPxcWLBVm
+key_version   |2
 
 Compare ciphers
 
