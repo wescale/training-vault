@@ -35,8 +35,7 @@ open [http://127.0.0.1:8200]()
 ## Init Vault
 
 ```bash
-
-vault operator init -key-shares=1 -key-threshold=1 key.txt
+vault operator init -key-shares=1 -key-threshold=1 > key.txt
 ```
 
 Unseal Vault
