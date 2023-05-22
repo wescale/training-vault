@@ -27,7 +27,7 @@ export VAULT_ADDR='http://127.0.0.1:8200'
 ## Start Vault Server
 
 ```bash
-docker container run --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/../exercise-1/Vault/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
+docker container run --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
 ```
 
 open [http://127.0.0.1:8200]()

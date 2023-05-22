@@ -4,19 +4,26 @@
 
 ## Description
 
-Task 1: Test the cubbyhole secret engine using CLI
-Task 2: Trigger response wrapping
-Task 3: Unwrap the wrapped Secret
-Task 4: Response wrapping via the web UI
+* Task 1: Test the cubbyhole secret engine using CLI
+* Task 2: Trigger response wrapping
+* Task 3: Unwrap the wrapped Secret
+* Task 4: Response wrapping via the web UI
 
 
 ## Init Lab
 
+```bash
 chmod +x vault.sh
 ./vault.sh
+```
+
+Test your Vault
+
+```bash
 export VAULT_ADDR='http://127.0.0.1:8200' 
 
 vault secrets list -detailed
+```
 
 ## Task 1: Test the cubbyhole secret engine using CLI
 
