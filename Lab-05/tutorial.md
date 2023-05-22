@@ -27,7 +27,7 @@ vault secrets list -detailed
 
 ## Task 1: Test the cubbyhole secret engine using CLI
 
-Create a non-privileged token
+Create a non-privileged token <connexion_token>
 
 ```bash
 vault token create -policy=default
@@ -43,7 +43,7 @@ token_policies      |["default"]
 identity_policies   |[]
 policies            |["default"]
 
-Open a new shell then switch user (for example switch to root) and login to vault with non-priviliged token:
+Open a new shell then switch user (for example switch to root) and login to vault with non-priviliged token <connexion_token>:
 
 ```bash
 
@@ -85,6 +85,12 @@ No value found at cubbyhole/private
 
 ## Task 2: Trigger response wrapping
 
+Left sudo su
+
+```bash
+exit
+```
+
 Create a response wrapping to secret/wescale
 
 ```bash
@@ -107,7 +113,7 @@ wrapping_token_creation_path:   |secret/data/wescale
 ## Task 3: Unwrap the wrapped Secret
 
 
-Open a new shell then switch user (for example switch to root) and login to vault with non-priviliged token:
+Open a new shell then switch user (for example switch to root) and login to vault with non-priviliged token <connexion_token>:
 
 ```bash
 

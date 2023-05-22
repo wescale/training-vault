@@ -50,6 +50,8 @@ vault operator generate-root -init -otp=$(cat otp.txt) -format=json \
 vault operator generate-root -nonce=$(cat nonce.txt) $(grep 'Key 1:' key.txt | awk '{print $NF}')
 ```
 
+  - | -
+--- | ---
 Nonce           |4efc1fa4-4ad9-18c2-15a9-460a798a6808
 Started         |true
 Progress        |1/1
