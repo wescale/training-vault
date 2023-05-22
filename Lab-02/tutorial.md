@@ -53,7 +53,7 @@ vault login $(grep 'Initial Root Token:' key.txt | awk '{print $NF}')
 Activate audit
 
 ```bash
-mkdir vault01/file/audit
+sudo mkdir -p vault01/file/audit
 sudo chown -R 100:1000 vault01/file/audit
 
 vault audit enable file file_path=/vault/file/audit/audit.log
