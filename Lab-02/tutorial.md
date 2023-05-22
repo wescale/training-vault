@@ -4,16 +4,17 @@
 
 ## Description
 
-Task 1: Write key/value secrets using CLI
-Task 2: List secret keys using CLI
-Task 3: Delete secrets using CLI
-Task 4: Manage the key/value secret engine using API
-Task 5: Explore web UI exclusive features
+* Task 1: Write key/value secrets using CLI
+* Task 2: List secret keys using CLI
+* Task 3: Delete secrets using CLI
+* Task 4: Manage the key/value secret engine using API
+* Task 5: Explore web UI exclusive features
 
-Challenge: Protect secrets from unintentional overwrite
+* Challenge: Protect secrets from unintentional overwrite
 
 ## Download & Install vault cli
 
+```bash
 wget https://releases.hashicorp.com/vault/1.12.4/vault_1.12.4_linux_amd64.zip
 unzip vault_1.12.4_linux_amd64.zip
 chmod +x vault
@@ -21,6 +22,7 @@ chmod +x vault
 sudo mv vault /usr/bin/
 
 export VAULT_ADDR='http://127.0.0.1:8200' 
+```
 
 ## Start Vault Server
 
@@ -28,7 +30,7 @@ export VAULT_ADDR='http://127.0.0.1:8200'
 docker container run --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/../exercise-1/Vault/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
 ```
 
-open http://127.0.0.1:8200
+open [http://127.0.0.1:8200]()
 
 ## Init Vault
 
@@ -187,6 +189,11 @@ Visit UI to show your secret
 
 ## Task5 Explore web UI exclusive features
 
+
+## Challenge: Protect secrets from unintentional overwrite
+
+* Option 1: Enable check-and-set at the secret/data/certificates level
+* Option 2: Require all team members to use the -cas flag with every write operation
 
 
 ## Clean Up
