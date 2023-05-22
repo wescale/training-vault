@@ -146,11 +146,6 @@ Error writing data to transit/rewrap/cards: Error making API request.
 ## Task 6: Encrypt data via web UI
 
 
-
-## Challenge: Setup database secret engine via API
-
-
-
 ## Clean Up
 
 ```bash
