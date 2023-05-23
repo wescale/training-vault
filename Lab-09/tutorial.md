@@ -136,7 +136,6 @@ vault status
 ```
 
 ```bash
-cd cloudshell_open/training-vault/Lab-09
 vault operator init -recovery-shares=1 -recovery-threshold=1 > key-server02.txt
 
 vault status
@@ -207,7 +206,8 @@ distribute the key shares printed above. When Vault is re-sealed, restarted,
 or stopped, you must supply at least 2 of these keys to unseal it before it
 can start servicing requests.
 
-With autounseal, you have to rotate key on transit 
+
+With autounseal, you have to rotate key on transit secret engine
 
 ```bash
 vault write -f transit/keys/autounseal/rotate
