@@ -4,10 +4,10 @@
 
 ## Description
 
-Task 1: Configure Auto-unseal Key Provider
-Task 2: Configure Auto-unseal
-Task 3: Audit the incoming request
-Task 4: Rekeying & Rotation
+* Task 1: Configure Auto-unseal Key Provider
+* Task 2: Configure Auto-unseal
+* Task 3: Audit the incoming request
+* Task 4: Rekeying & Rotation
 
 
 ## Init Lab - Vault Central Server
@@ -69,15 +69,15 @@ Create a new token with autounseal policy.
 vault token create -policy="autounseal"
 ```
 
-Key                  Value
----                  -----
-token                hvs.CAESIABIva_eNAI9XTcQcNYOOG4K3zb36OoKB1pRe20g2dZ5Gh4KHGh2cy42QnNkSnlJeVJVTGROaVhieFlTQUtEeEk
-token_accessor       KiozfZNmKkDsoD1HpwNqwsUh
-token_duration       768h
-token_renewable      true
-token_policies       ["autounseal" "default"]
-identity_policies    []
-policies             ["autounseal" "default"]
+Key                 |Value
+---                 |-----
+token               |hvs.CAESIABIva_eNAI9XTcQcNYOOG4K3zb36OoKB1pRe20g2dZ5Gh4KHGh2cy42QnNkSnlJeVJVTGROaVhieFlTQUtEeEk
+token_accessor      |KiozfZNmKkDsoD1HpwNqwsUh
+token_duration      |768h
+token_renewable     |true
+token_policies      |["autounseal" "default"]
+identity_policies   |[]
+policies            |["autounseal" "default"]
 
 Export your <unseal_token>
 

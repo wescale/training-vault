@@ -406,7 +406,7 @@ vault auth enable userpass
 
 Success! Enabled userpass auth method at: userpass/
 
-Create a user with the name student01 , password training with the default policies.
+Create a user with the name wescale01 , password training with the default policies.
 
 ```bash
 vault write auth/userpass/users/wescale01 password="training" policies="default"
