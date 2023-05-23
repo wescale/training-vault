@@ -30,11 +30,11 @@ What we will do :
 
 * **vault_1** (http://127.0.0.1:8200) is initialized and unsealed. The root token creates a transit key that enables the other Vaults auto-unseal. This Vault does not join the cluster.
 
-* **vault_2** (http://127.0.0.2:8220) is initialized and unsealed. This Vault starts as the cluster leader. An example K/V-V2 secret is created.
+* **vault_2** (http://127.0.0.1:8220) is initialized and unsealed. This Vault starts as the cluster leader. An example K/V-V2 secret is created.
 
-* **vault_3** (http://127.0.0.3:8230) is only started. You will join it to the cluster.
+* **vault_3** (http://127.0.0.1:8230) is only started. You will join it to the cluster.
 
-* **vault_4** (http://127.0.0.4:8240) is only started. You will join it to the cluster.
+* **vault_4** (http://127.0.0.1:8240) is only started. You will join it to the cluster.
 
 ## Task 1: Setup Auto-Unseal server
 
@@ -197,7 +197,8 @@ Start generation recovery token from OTP
 ```bash
 VAULT_ADDR=http://127.0.0.1:8230 vault operator generate-root -init -otp=<your otp token> -recovery-token
 ```
-
+- | -
+--- | ---
 Nonce        |8d269b33-295d-679f-e0f4-9c954df65303
 Started      |true
 Progress     |0/1
@@ -215,6 +216,8 @@ Found Recovery key in early step in file `key-vault2.txt`
 
 Operation nonce: 8d269b33-295d-679f-e0f4-9c954df65303
 Unseal Key (will be hidden): 
+- | -
+--- | ---
 Nonce           |8d269b33-295d-679f-e0f4-9c954df65303
 Started         |true
 Progress        |1/1
