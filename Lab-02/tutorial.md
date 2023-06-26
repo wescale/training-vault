@@ -54,7 +54,7 @@ Activate audit
 
 ```bash
 sudo mkdir -p vault01/file/audit
-sudo chown -R 100:1000 vault01/file/audit
+sudo chown -R 1000:1000 vault01/file/audit
 
 vault audit enable file file_path=/vault/file/audit/audit.log
 ```
