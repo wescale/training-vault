@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-wget https://releases.hashicorp.com/vault/1.12.4/vault_1.12.4_linux_amd64.zip
-unzip vault_1.12.4_linux_amd64.zip
+wget https://releases.hashicorp.com/vault/1.15.3/vault_1.15.3_linux_amd64.zip
+unzip vault_1.15.3_linux_amd64.zip
 chmod +x vault
-rm vault_1.12.4_linux_amd64.zip
+rm vault_1.15.3_linux_amd64.zip
 
 sudo mv vault /usr/bin/
 
@@ -11,7 +11,7 @@ export VAULT_ADDR='http://127.0.0.1:8200'
 
 docker network create pg
 
-docker container run --network pg  --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
+docker container run --network pg  --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.15.3 vault server -config=/vault/config/vault.hcl
 
 docker container run --network pg -d --name postgres -e POSTGRES_PASSWORD="password" postgres
 
