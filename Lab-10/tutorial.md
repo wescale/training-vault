@@ -177,6 +177,8 @@ Consul Template tool is widely adopted by the Vault users since it allowed appli
 
 ```bash
 docker container rm -f $(docker container ls -aq)
+```
 
+```bash
 sudo rm -rf vault01/
 ```

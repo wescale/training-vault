@@ -228,8 +228,11 @@ vault auth list -output-curl-string
 
 ## Clean Up
 
+
 ```bash
 docker container rm -f $(docker container ls -aq)
+```
 
+```bash
 sudo rm -rf vault01/
 ```

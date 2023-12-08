@@ -17,7 +17,7 @@
 chmod +x vault.sh
 ./vault.sh
 export VAULT_ADDR='http://127.0.0.1:8200' 
-# -e POSTGRES_PASSWORD=mysecretpassword
+
 ```
 
 ## Task 1: Enable and configure a database secret engine
@@ -42,13 +42,22 @@ Configure postgres
 
 ```bash
 docker container exec -it postgres psql -U postgres
+```
 
+```bash
 CREATE ROLE "vault-edu" WITH LOGIN PASSWORD 'mypassword';
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "vault-edu";
+```
 
+```bash
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "vault-edu";
+```
+
+```bash
 \du
 \q
+```
 
+```bash
 cat << EOF > rotation.sql 
 ALTER USER "{{name}}" WITH PASSWORD '{{password}}';
 EOF
@@ -100,6 +109,9 @@ Connect to DB
 ```bash
 docker container exec -it postgres psql -h postgres -d postgres -U vault-edu
 
+```
+
+```bash
 \c 
 \q
 ```
@@ -118,11 +130,9 @@ Vault requires that you define the SQL to create credentials associated with thi
 readonly.sql
 
 ```bash
-cat <<EOF > readonly.sql
-CREATE ROLE "{{name}}" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';
-REVOKE ALL ON SCHEMA public FROM public, "{{name}}";
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO "{{name}}";
-EOF
+echo "CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';
+REVOKE ALL ON SCHEMA public FROM public, \"{{name}}\";
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";" | tee readonly.sql
 ```
 
 Configure the role
@@ -150,7 +160,11 @@ Verify
 
 ```bash
 docker container exec -it postgres psql -U postgres
+```
 
+Verify and Disconnect
+
+```bash
 \du
 ```
 
@@ -207,6 +221,8 @@ revoke with prefix
 ```bash
 vault lease revoke -prefix database/creds/readonly
 
+```
+
 Control postgres
 
 
@@ -223,8 +239,11 @@ docker container exec -it postgres psql -U postgres
 
 ## Clean Up
 
+
 ```bash
 docker container rm -f $(docker container ls -aq)
+```
 
+```bash
 sudo rm -rf vault01/
 ```

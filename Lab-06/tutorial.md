@@ -115,6 +115,8 @@ vault operator rotate
 
 ```bash
 docker container rm -f $(docker container ls -aq)
+```
 
+```bash
 sudo rm -rf vault01/
 ```

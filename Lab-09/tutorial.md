@@ -235,9 +235,12 @@ docker container logs server02
 
 ## Clean Up
 
+
 ```bash
 docker container rm -f $(docker container ls -aq)
+```
 
+```bash
 sudo rm -rf vault01/
 sudo rm -rf vault02/
 ```

@@ -15,11 +15,13 @@
 ## Download & Install vault cli
 
 ```bash
-wget https://releases.hashicorp.com/vault/1.12.4/vault_1.12.4_linux_amd64.zip
-unzip vault_1.12.4_linux_amd64.zip
+wget https://releases.hashicorp.com/vault/1.15.3/vault_1.15.3_linux_amd64.zip
+unzip vault_1.15.3_linux_amd64.zip
 chmod +x vault
 
 sudo mv vault /usr/bin/
+
+rm -f vault_1.15.3_linux_amd64.zip
 
 export VAULT_ADDR='http://127.0.0.1:8200' 
 ```
@@ -27,10 +29,10 @@ export VAULT_ADDR='http://127.0.0.1:8200'
 ## Start Vault Server
 
 ```bash
-docker container run --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
+docker container run --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.15.3 vault server -config=/vault/config/vault.hcl
 ```
 
-open [http://127.0.0.1:8200]()
+open [http://127.0.0.1:8200](http://127.0.0.1:8200)
 
 ## Init Vault
 
@@ -69,7 +71,9 @@ vault secrets list -detailed
 
 ```bash
 vault secrets enable -path=secret kv-v2
+```
 
+```bash
 vault kv put secret/training username="student01" password="pAssw0rd"
 ```
 
@@ -100,13 +104,16 @@ vault kv patch secret/training course="Vault by WeScale 101"
 Create secret with file
 
 ```bash
-cat << EOF > vault01/file/data.json
+echo '
 {
 "organization": "WeScale",
 "region": "FR-West3"
 }
-EOF
+' | sudo tee vault01/file/data.json
 
+```
+
+```bash
 vault kv put secret/company @vault01/file/data.json
 
 vault kv get secret/company
@@ -157,22 +164,20 @@ vault kv put -output-curl-string secret/apikey/google apikey="my-api-key"
 
 ```
 
-> curl -X PUT -H "X-Vault-Token: $(vault print token)" \
-> -d '{"data":{"apikey":"my-api-key"},"options":{}}' \
-> http://127.0.0.1:8200/v1/secret/data/apikey/google | jq
+> curl -X PUT -H "X-Vault-Token: $(vault print token)" -d '{"data":{"apikey":"my-api-key"},"options":{}}' http://127.0.0.1:8200/v1/secret/data/apikey/google | jq
 
 
 Generate a command to get secret path
 
 ```bash
 vault kv get -output-curl-string secret/apikey/google
-curl -H "X-Vault-Token: $(vault print token)" \
-http://127.0.0.1:8200/v1/secret/data/apikey/google | jq
+```
+
+> curl -H "X-Vault-Token: $(vault print token)" http://127.0.0.1:8200/v1/secret/data/apikey/google | jq
 
 With jq you can extract a portion of response
 
-> curl -H "X-Vault-Token: $(vault print token)" \
-> http://127.0.0.1:8200/v1/secret/data/apikey/google | jq ".data.data.apikey"
+> curl -H "X-Vault-Token: $(vault print token)" http://127.0.0.1:8200/v1/secret/data/apikey/google | jq ".data.data.apikey"
 
 
 Generate delete command
@@ -197,8 +202,11 @@ Visit UI to show your secret
 
 ## Clean Up
 
+
 ```bash
 docker container rm -f $(docker container ls -aq)
+```
 
+```bash
 sudo rm -rf vault01/
 ```
