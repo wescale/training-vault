@@ -23,18 +23,19 @@ sudo apt update
 Install Vault
 
 ```bash
-sudo apt install vault=1.12.4-1
+sudo apt install vault=1.15.3-1
 ```
 
 Start Vault server (with config)
 
 ```bash
-sudo vault server -config=vault.hcl
-
-export VAULT_ADDR='http://127.0.0.1:8200' 
+sudo vault server -config=vault.hcl 2>&1 &
 ```
 
-open [http://127.0.0.1:8200]()
+```bash
+export VAULT_ADDR='http://127.0.0.1:8200' 
+```
+Then open [http://127.0.0.1:8200](http://127.0.0.1:8200)
 
 ## Init Vault
 
@@ -102,6 +103,9 @@ Test Vault security
 
 ```bash
 sudo apt install tree
+```
+
+```bash
 sudo tree /opt/vault/data/logical
 
 /opt/vault/data/logical
@@ -153,4 +157,12 @@ ensure audit log is active
 
 ```bash
 sudo tail -f /opt/vault/audit/audit.log
+```
+
+## Clean Up
+
+Stop vault server
+
+```bash
+kill %1
 ```

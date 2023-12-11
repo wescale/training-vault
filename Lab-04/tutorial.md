@@ -148,8 +148,11 @@ Error writing data to transit/rewrap/cards: Error making API request.
 
 ## Clean Up
 
+
 ```bash
 docker container rm -f $(docker container ls -aq)
+```
 
+```bash
 sudo rm -rf vault01/
 ```

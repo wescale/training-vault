@@ -249,7 +249,9 @@ VAULT_ADDR=http://127.0.0.1:8230 VAULT_TOKEN=hvr.orQP5TzXzPk8ZuJrbUTRkc5B vault 
 
 ```bash
 docker container rm -f $(docker container ls -aq)
+```
 
+```bash
 sudo rm -rf vault01/
 sudo rm -rf vault_2/
 sudo rm -rf vault_3/
