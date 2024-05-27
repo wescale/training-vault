@@ -1,4 +1,4 @@
-# Lab 03 - Dynamic Secret Engine
+# Lab - Dynamic Secret Engine
 
 <walkthrough-tutorial-duration duration="35.0"></walkthrough-tutorial-duration>
 
@@ -14,7 +14,7 @@
 ## Init Lab
 
 ```bash
-chmod +x vault.sh
+chmod +x vault-connect.sh
 ./vault.sh
 export VAULT_ADDR='http://127.0.0.1:8200' 
 
