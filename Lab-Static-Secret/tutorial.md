@@ -1,4 +1,4 @@
-# Lab 02 - Static Secret
+# Lab - Static Secret
 
 <walkthrough-tutorial-duration duration="35.0"></walkthrough-tutorial-duration>
 
@@ -12,53 +12,31 @@
 
 * Challenge: Protect secrets from unintentional overwrite
 
-## Download & Install vault cli
+## Download & Install vault cli (1st time only)
 
 ```bash
-wget https://releases.hashicorp.com/vault/1.15.3/vault_1.15.3_linux_amd64.zip
-unzip vault_1.15.3_linux_amd64.zip
+wget https://releases.hashicorp.com/vault/1.16.2/vault_1.16.2_linux_amd64.zip
+unzip vault_1.16.2_linux_amd64.zip
 chmod +x vault
 
 sudo mv vault /usr/bin/
+vault version
 
-rm -f vault_1.15.3_linux_amd64.zip
+rm -f vault_1.16.2_linux_amd64.zip
 
+```
+
+switch to vault unsecure
+
+```bash
 export VAULT_ADDR='http://127.0.0.1:8200' 
 ```
 
-## Start Vault Server
+## Start Vault Server (1st time only)
 
 ```bash
-docker container run --cap-add IPC_LOCK --name server01 -d -p 8200:8200 -v $(pwd)/vault.hcl:/vault/config/vault.hcl -v $(pwd)/vault01/file:/vault/file hashicorp/vault:1.15.3 vault server -config=/vault/config/vault.hcl
-```
-
-open [http://127.0.0.1:8200](http://127.0.0.1:8200)
-
-## Init Vault
-
-```bash
-vault operator init -key-shares=1 -key-threshold=1 > key.txt
-```
-
-Unseal Vault
-
-```bash
-vault operator unseal $(grep 'Key 1:' key.txt | awk '{print $NF}')
-```
-
-Login to Vault
-
-```bash
-vault login $(grep 'Initial Root Token:' key.txt | awk '{print $NF}')
-```
-
-Activate audit
-
-```bash
-sudo mkdir -p vault01/file/audit
-sudo chown -R 100:1000 vault01/file/audit
-
-vault audit enable file file_path=/vault/file/audit/audit.log
+chmod +x vault.sh
+./vault.sh
 ```
 
 List secrets
@@ -103,7 +81,7 @@ vault kv patch secret/training course="Vault by WeScale 101"
 
 Create secret with file
 
-```bash
+```txt
 echo '
 {
 "organization": "WeScale",
@@ -115,7 +93,9 @@ echo '
 
 ```bash
 vault kv put secret/company @vault01/file/data.json
+```
 
+```bash
 vault kv get secret/company
 ```
 
