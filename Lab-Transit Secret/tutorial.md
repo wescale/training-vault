@@ -1,4 +1,4 @@
-# Lab 04 - Transit Secret Engine
+# Lab - Transit Secret Engine
 
 <walkthrough-tutorial-duration duration="20.0"></walkthrough-tutorial-duration>
 
@@ -16,8 +16,8 @@
 ## Init Lab
 
 ```bash
-chmod +x vault.sh
-./vault.sh
+chmod +x vault-connect.sh
+./vault-connect.sh
 ```
 
 Test your Vault

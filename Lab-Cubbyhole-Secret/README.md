@@ -1,11 +1,13 @@
-# Lab 05 - Cubbyhole Secret Engine
+# Lab - Cubbyhole Secret Engine
 
 Click the button below to start the exercise.
 
-[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/wescale/training-vault&cloudshell_tutorial=tutorial.md&show=ide%2Cterminal&ephemeral=false&cloudshell_git_branch=main&cloudshell_workspace=Lab-05/)
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/open?cloudshell_tutorial=tutorial.md&show=ide%2Cterminal&ephemeral=false&cloudshell_workspace=cloudshell_open%2fwescale-training-vault)
 
-or
+and
 
 ```bash
+cd ~/cloudshell_open/wescale-training-vault/Lab-Cubbyhole-Secret
+
 teachme tutorial.md
 ```

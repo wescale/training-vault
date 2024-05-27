@@ -1,4 +1,4 @@
-# Lab 12 - Production Ready Cluster on Kubernetes
+# Lab - Production Ready Cluster on Kubernetes
 
 <walkthrough-tutorial-duration duration="20.0"></walkthrough-tutorial-duration>
 

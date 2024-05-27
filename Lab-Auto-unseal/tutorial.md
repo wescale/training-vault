@@ -1,4 +1,4 @@
-# Lab 09 - Auto-unseal
+# Lab - Auto-unseal
 
 <walkthrough-tutorial-duration duration="40.0"></walkthrough-tutorial-duration>
 
@@ -13,8 +13,8 @@
 ## Init Lab - Vault Central Server
 
 ```bash
-chmod +x vault.sh
-./vault.sh
+chmod +x vault-connect.sh
+./vault-connect.sh
 ```
 
 Test your setup

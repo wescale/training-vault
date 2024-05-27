@@ -1,4 +1,4 @@
-# Lab 05 - Cubbyhole Secret Engine
+# Lab - Cubbyhole Secret Engine
 
 <walkthrough-tutorial-duration duration="20.0"></walkthrough-tutorial-duration>
 
@@ -13,8 +13,8 @@
 ## Init Lab
 
 ```bash
-chmod +x vault.sh
-./vault.sh
+chmod +x vault-connect.sh
+./vault-connect.sh
 ```
 
 Test your Vault

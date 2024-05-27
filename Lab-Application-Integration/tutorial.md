@@ -1,4 +1,4 @@
-# Lab 10 - Application Integration
+# Lab - Application Integration
 
 <walkthrough-tutorial-duration duration="30.0"></walkthrough-tutorial-duration>
 
@@ -12,8 +12,8 @@
 ## Init Lab
 
 ```bash
-chmod +x vault.sh
-./vault.sh
+chmod +x vault-connect.sh
+./vault-connect.sh
 ```
 
 Test your setup
