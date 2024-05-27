@@ -180,7 +180,7 @@ Visit UI to show your secret
 * Option 2: Require all team members to use the -cas flag with every write operation
 
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 
 ```bash
