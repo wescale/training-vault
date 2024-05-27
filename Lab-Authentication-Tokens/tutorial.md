@@ -221,7 +221,9 @@ Code: 403. Errors:
 
 * permission denied
 
+```bash
 vault token renew hvs.6JHYQ8TSHtRrnhYjAjaCPsnH
+```
 
 ## Task 4: Create an Orphan Token
 
@@ -259,9 +261,11 @@ policies            |["root"]
 
 our hierachy:
 
-root
-  |__ hvs.MDy72UiuRucXPZSSISLLMKcb (TTL = 90 seconds)
-    |__ hvs.U0TDtN7dG7pV7sLUb3PICWWB (TTL = 180 seconds)
+> root
+>
+> |__ hvs.MDy72UiuRucXPZSSISLLMKcb (TTL = 90 seconds)
+>
+>    |__ hvs.U0TDtN7dG7pV7sLUb3PICWWB (TTL = 180 seconds)
 
 After 90 seconds, the <token_task_4> expires! This automatically revokes its child token. If you try to look up the child token, you should receive bad token error since
 the token was revoked when its parent expired.
