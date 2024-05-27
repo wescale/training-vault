@@ -159,7 +159,7 @@ ensure audit log is active
 sudo tail -f /opt/vault/audit/audit.log
 ```
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 Stop vault server
 

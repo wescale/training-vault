@@ -146,7 +146,7 @@ Error writing data to transit/rewrap/cards: Error making API request.
 ## Task 6: Encrypt data via web UI
 
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 
 ```bash

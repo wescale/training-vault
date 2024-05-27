@@ -226,7 +226,7 @@ vault auth list -output-curl-string
 
 [Challenge Solution](challenge-solution.md)
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 
 ```bash

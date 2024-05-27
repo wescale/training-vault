@@ -173,7 +173,7 @@ cat config-agent.yml
 > Vault Agent is a client daemon that solves the secret-zero problem by authenticating with Vault and manage the client tokens on behalf of the client applications. The
 Consul Template tool is widely adopted by the Vault users since it allowed applications to be "Vault-unaware".
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 ```bash
 docker container rm -f $(docker container ls -aq)

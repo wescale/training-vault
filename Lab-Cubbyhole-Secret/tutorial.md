@@ -48,13 +48,15 @@ Open a new shell then switch user (for example switch to root) and login to vaul
 ```bash
 
 sudo su
+
+```
+
 ```bash
-
-```
 export VAULT_ADDR='http://127.0.0.1:8200' 
-
-vault login hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI
 ```
+
+Then login: 
+`vault login hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI`
 
 Success! You are now authenticated. The token information displayed below
 is already stored in the token helper. You do NOT need to run "vault login"
@@ -122,9 +124,9 @@ Open a new shell then switch user (for example switch to root) and login to vaul
 sudo su
 
 export VAULT_ADDR='http://127.0.0.1:8200' 
-
-vault login hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI
 ```
+
+Login with your token `vault login hvs.CAESIBNLdHREmz8IPV6O6eMbSkk46PGF78Ki4XYD2EptqAIGGh4KHGh2cy5UU2huMEltRWtFQmlRQldyMFo0UlhpMDI`
 
 Success! You are now authenticated. The token information displayed below
 is already stored in the token helper. You do NOT need to run "vault login"
@@ -163,7 +165,7 @@ What happens if no one use the token before expired period or already use the to
 ## Task 4: Response wrapping via the web UI
 
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 
 ```bash

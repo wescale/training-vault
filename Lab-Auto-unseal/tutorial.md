@@ -233,7 +233,7 @@ docker container restart server02
 docker container logs server02
 ```
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 
 ```bash

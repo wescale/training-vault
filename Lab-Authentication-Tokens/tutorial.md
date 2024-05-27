@@ -448,7 +448,7 @@ vault login $(grep 'Initial Root Token:' key.txt | awk '{print $NF}')
 * Task 1: Create a token of type batch with default policy attached, and its TTL is set to 360 seconds.
 * Task 2: Enable another userpass auth method at userpass-batch path which generates a batch token upon a successful user authentication. Be sure to test and verify
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 ```bash
 docker container rm -f $(docker container ls -aq)

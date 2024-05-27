@@ -245,7 +245,7 @@ VAULT_ADDR=http://127.0.0.1:8230 VAULT_TOKEN=hvr.orQP5TzXzPk8ZuJrbUTRkc5B vault 
 
 [Solution](solutions/task5-recovery.md)
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 ```bash
 docker container rm -f $(docker container ls -aq)

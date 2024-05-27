@@ -111,7 +111,7 @@ vault operator rotate
 ```
 
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 ```bash
 docker container rm -f $(docker container ls -aq)

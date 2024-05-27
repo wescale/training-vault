@@ -418,7 +418,7 @@ kubectl exec -it busybox-vault-576c5cc4cb-hr6jw -c busybox -- cat /vault/secrets
 
 kubectl exec -n $VAULT_K8S_NAMESPACE -ti vault-0 -- vault kv put secret/tls/apitest username="apiuser" password="supersecret2"
 
-## Clean UP
+## Clean Up (only at the end of the training)
 
 Regenerate certs
 
