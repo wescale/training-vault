@@ -1,4 +1,4 @@
-# Lab 04 - Transit Secret Engine
+# Lab - Transit Secret Engine
 
 Click the button below to start the exercise.
 

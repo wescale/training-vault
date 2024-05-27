@@ -1,4 +1,4 @@
-# Lab 07 - Vault Authentication and Tokens
+# Lab - Vault Authentication and Tokens
 
 Click the button below to start the exercise.
 

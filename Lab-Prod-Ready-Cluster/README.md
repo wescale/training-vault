@@ -1,4 +1,4 @@
-# Lab 12 - Production Ready Cluster on Kubernetes
+# Lab - Production Ready Cluster on Kubernetes
 
 Click the button below to start the exercise.
 

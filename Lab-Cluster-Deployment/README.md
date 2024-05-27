@@ -1,4 +1,4 @@
-# Lab 11 - Cluster Deployment
+# Lab - Cluster Deployment
 
 Click the button below to start the exercise.
 

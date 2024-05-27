@@ -1,4 +1,4 @@
-# Lab 02 - Static Secret
+# Lab Static Secret
 
 Click the button below to start the exercise.
 

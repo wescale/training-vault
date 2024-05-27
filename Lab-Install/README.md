@@ -1,4 +1,4 @@
-# Lab 01 - Vault Installation & Configuration
+# Lab Vault Installation & Configuration
 
 Click the button below to start the exercise.
 

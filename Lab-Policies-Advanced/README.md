@@ -1,4 +1,4 @@
-# Lab 08 - Vault Policies
+# Lab - Vault Policies
 
 Click the button below to start the exercise.
 

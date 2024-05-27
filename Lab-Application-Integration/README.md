@@ -1,4 +1,4 @@
-# Lab 10 - Application Integration
+# Lab - Application Integration
 
 Click the button below to start the exercise.
 

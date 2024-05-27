@@ -1,4 +1,4 @@
-# Lab 09 - Auto-unseal
+# Lab - Auto-unseal
 
 Click the button below to start the exercise.
 

@@ -1,4 +1,4 @@
-# Lab 06 - Vault Operations
+# Lab - Vault Operations
 
 Click the button below to start the exercise.
 

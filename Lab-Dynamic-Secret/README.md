@@ -1,4 +1,4 @@
-# Lab 03 - Dynamic Secret Engine
+# Lab - Dynamic Secret Engine
 
 Click the button below to start the exercise.
 
