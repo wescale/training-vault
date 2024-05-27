@@ -15,7 +15,7 @@
 
 ```bash
 chmod +x vault-connect.sh
-./vault.sh
+./vault-connect.sh
 export VAULT_ADDR='http://127.0.0.1:8200' 
 
 ```
@@ -35,7 +35,9 @@ Configure
 vault write database/config/postgresql \
 plugin_name="postgresql-database-plugin" \
 allowed_roles="*" \
-connection_url="postgresql://postgres:password@postgres/postgres"
+connection_url="postgresql://{{username}}:{{password}}@postgres/postgres" \
+username=postgres \
+password=password
 ```
 
 Configure postgres
@@ -57,10 +59,9 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "vault-edu";
 \q
 ```
 
+check rotation.sql
 ```bash
-cat << EOF > rotation.sql 
-ALTER USER "{{name}}" WITH PASSWORD '{{password}}';
-EOF
+cat rotation.sql 
 ```
 
 ## Task 2: Enable and configure a database secret engine
@@ -129,10 +130,9 @@ vault write -f database/rotate-role/education
 Vault requires that you define the SQL to create credentials associated with this dynamic, readonly role. The SQL required to generate this role can be found in the file
 readonly.sql
 
+check readonly.sql
 ```bash
-echo "CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';
-REVOKE ALL ON SCHEMA public FROM public, \"{{name}}\";
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";" | tee readonly.sql
+cat readonly.sql 
 ```
 
 Configure the role
@@ -166,14 +166,21 @@ Verify and Disconnect
 
 ```bash
 \du
+\q
 ```
 
 ## Task 4: Revoke leases
 
+
+> Lease id can be found when you read creds !
+
+
+export my_pg_lease="database/creds/readonly/<adapt>"
+
 Renew lease
 
 ```bash
-vault lease renew database/creds/readonly/cE4Nd4BO6akHrj9YOkEN5f6h
+vault lease renew $my_pg_lease
 ```
 
 ```hcl
@@ -190,28 +197,32 @@ capabilities = [ "update" ]
 Increment lease
 
 ```bash
-vault lease renew -increment=2h database/creds/readonly/cE4Nd4BO6akHrj9YOkEN5f6h
+vault lease renew -increment=2h $my_pg_lease
 ```
 
 Revoke lease
 
 ```bash
-vault lease revoke database/creds/readonly/cE4Nd4BO6akHrj9YOkEN5f6h
+vault lease revoke $my_pg_lease
 ```
 
 
 
-revoke with prefix
+Revoke with prefix
 
 Generate some creds
 
-```bash
+```txt
 for i in {1..100}
 do
- vault read database/creds/readonly
+    vault read database/creds/readonly 
 done
-docker container exec -it postgres psql -U postgres
 
+docker container exec -it postgres psql -U postgres
+```
+
+exit container
+```bash
 \du
 \q
 ```
@@ -228,7 +239,10 @@ Control postgres
 
 ```bash
 docker container exec -it postgres psql -U postgres
+```
 
+check and exit
+```
 \du
 \q
 ```
@@ -237,7 +251,7 @@ docker container exec -it postgres psql -U postgres
 
 
 
-## Clean Up
+## Clean Up (only at the end of the training)
 
 
 ```bash
