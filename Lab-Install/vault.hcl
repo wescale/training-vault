@@ -1,3 +1,5 @@
+# all configuration options: https://developer.hashicorp.com/vault/docs/configuration
+# lab sage
 
 ui = true
 
