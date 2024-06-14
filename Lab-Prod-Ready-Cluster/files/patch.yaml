@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-vault
+  labels:
+    app: apitest
+spec:
+  template:
+    spec:
+      # This service account does not have permission to request the secrets.
+      serviceAccountName: internal-app

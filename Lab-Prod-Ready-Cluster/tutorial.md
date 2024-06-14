@@ -10,9 +10,9 @@
 
 What we will not do
 
-> - Auto-Unseal via vault master + Secondary Vault
+> - Auto-Unseal via vault master + Secondary Vault (install another vault in other NS/Cluster or use cloud KMS )
 > 
-> - PGP Init
+> - PGP Init (required for prod env)
 > 
 > - Vautl CSI
 > 
@@ -53,66 +53,31 @@ export WORKDIR=$(pwd)/tmp/vault
 Generate certificate private key
 
 ```bash
-openssl genrsa -out ${WORKDIR}/vault.key 2048
+openssl genrsa -out ${WORKDIR}/files/vault.key 2048
 ```
 
 Create CSR
 
 ```bash
-cat > ${WORKDIR}/vault-csr.conf <<EOF
-[req]
-default_bits = 2048
-prompt = no
-encrypt_key = yes
-default_md = sha256
-distinguished_name = kubelet_serving
-req_extensions = v3_req
-[ kubelet_serving ]
-O = system:nodes
-CN = system:node:*.${VAULT_K8S_NAMESPACE}.svc.${K8S_CLUSTER_NAME}
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment, dataEncipherment
-extendedKeyUsage = serverAuth, clientAuth
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = *.${VAULT_SERVICE_NAME}
-DNS.2 = *.${VAULT_SERVICE_NAME}.${VAULT_K8S_NAMESPACE}.svc.${K8S_CLUSTER_NAME}
-DNS.3 = *.${VAULT_K8S_NAMESPACE}
-DNS.4 = *.${VAULT_K8S_NAMESPACE}.svc
-IP.1 = 127.0.0.1
-EOF
+cat ${WORKDIR}/files/vault-csr.conf
 ```
 
 Generate CSR
 
 ```bash
-openssl req -new -key ${WORKDIR}/vault.key -out ${WORKDIR}/vault.csr -config ${WORKDIR}/vault-csr.conf
+openssl req -new -key ${WORKDIR}/files/vault.key -out ${WORKDIR}/files/vault.csr -config ${WORKDIR}/files/vault-csr.conf
 ```
 
 Issue the certificate
 
 ```bash
-cat > ${WORKDIR}/csr.yaml <<EOF
-apiVersion: certificates.k8s.io/v1
-kind: CertificateSigningRequest
-metadata:
-   name: vault.svc
-spec:
-   signerName: kubernetes.io/kubelet-serving
-   expirationSeconds: 8640000
-   request: $(cat ${WORKDIR}/vault.csr|base64|tr -d '\n')
-   usages:
-   - digital signature
-   - key encipherment
-   - server auth
-EOF
+cat ${WORKDIR}/files/csr.yaml 
 ```
 
 Send CSR & Approve CSR
 
 ```bash
-kubectl create -f ${WORKDIR}/csr.yaml
+kubectl create -f ${WORKDIR}/files/csr.yaml
 kubectl certificate approve vault.svc
 ```
 
@@ -124,81 +89,52 @@ kubectl get csr vault.svc
 
 Store secret into Kubernetes
 
-```bash
-kubectl get csr vault.svc -o jsonpath='{.status.certificate}' | openssl base64 -d -A -out ${WORKDIR}/vault.crt
+Extract certificate
 
+```bash
+kubectl get csr vault.svc -o jsonpath='{.status.certificate}' | openssl base64 -d -A -out ${WORKDIR}/files/vault.crt
+```
+
+Extract CA
+```bash
 kubectl config view \
 --raw \
 --minify \
 --flatten \
 -o jsonpath='{.clusters[].cluster.certificate-authority-data}' \
-| base64 -d > ${WORKDIR}/vault.ca
+| base64 -d > ${WORKDIR}/files/vault.ca
+```
 
+Create vault NS
+```bash
 kubectl create namespace $VAULT_K8S_NAMESPACE
+```
 
+Create kubernetes generic secret
+```bash
 kubectl create secret generic vault-ha-tls \
    -n $VAULT_K8S_NAMESPACE \
-   --from-file=vault.key=${WORKDIR}/vault.key \
-   --from-file=vault.crt=${WORKDIR}/vault.crt \
-   --from-file=vault.ca=${WORKDIR}/vault.ca
+   --from-file=vault.key=${WORKDIR}/files/vault.key \
+   --from-file=vault.crt=${WORKDIR}/files/vault.crt \
+   --from-file=vault.ca=${WORKDIR}/files/vault.ca
 ```
 
 Install Vault master
 
-```bash
-cat > ${WORKDIR}/overrides.yaml <<EOF
-global:
-   enabled: true
-   tlsDisable: false
-injector:
-   enabled: true
-server:
-   extraEnvironmentVars:
-      VAULT_CACERT: /vault/userconfig/vault-ha-tls/vault.ca
-      VAULT_TLSCERT: /vault/userconfig/vault-ha-tls/vault.crt
-      VAULT_TLSKEY: /vault/userconfig/vault-ha-tls/vault.key
-   volumes:
-      - name: userconfig-vault-ha-tls
-        secret:
-         defaultMode: 420
-         secretName: vault-ha-tls
-   volumeMounts:
-      - mountPath: /vault/userconfig/vault-ha-tls
-        name: userconfig-vault-ha-tls
-        readOnly: true
-   standalone:
-      enabled: false
-   affinity: ""
-   ha:
-      enabled: true
-      replicas: 3
-      raft:
-         enabled: true
-         setNodeId: true
-         config: |
-            ui = true
-            listener "tcp" {
-               tls_disable = 0
-               address = "[::]:8200"
-               cluster_address = "[::]:8201"
-               tls_cert_file = "/vault/userconfig/vault-ha-tls/vault.crt"
-               tls_key_file  = "/vault/userconfig/vault-ha-tls/vault.key"
-               tls_client_ca_file = "/vault/userconfig/vault-ha-tls/vault.ca"
-            }
-            storage "raft" {
-               path = "/vault/data"
-            }
-            disable_mlock = true
-            service_registration "kubernetes" {}
-EOF
+Check `overrides.yaml`
 
-helm install -n $VAULT_K8S_NAMESPACE $VAULT_HELM_RELEASE_NAME hashicorp/vault -f ${WORKDIR}/overrides.yaml
+```bash
+cat ${WORKDIR}/files/overrides.yaml
+```
+
+```bash
+helm install -n $VAULT_K8S_NAMESPACE $VAULT_HELM_RELEASE_NAME hashicorp/vault -f ${WORKDIR}/files/overrides.yaml
 ```
 
 Verify your installation
 
 ```bash
-kubectl -n $VAULT_K8S_NAMESPACE get pods
+kubectl -n $VAULT_K8S_NAMESPACE get pods -w
 ```
 
 Init your vault instance `vault-0`
@@ -207,11 +143,11 @@ Init your vault instance `vault-0`
 kubectl exec -n $VAULT_K8S_NAMESPACE vault-0 -- vault operator init \
     -key-shares=1 \
     -key-threshold=1 \
-    -format=json > ${WORKDIR}/cluster-keys.json
+    -format=json > ${WORKDIR}/files/cluster-keys.json
 
-jq -r ".unseal_keys_b64[]" ${WORKDIR}/cluster-keys.json
+jq -r ".unseal_keys_b64[]" ${WORKDIR}/files/cluster-keys.json
 
-VAULT_UNSEAL_KEY=$(jq -r ".unseal_keys_b64[]" ${WORKDIR}/cluster-keys.json)
+VAULT_UNSEAL_KEY=$(jq -r ".unseal_keys_b64[]" ${WORKDIR}/files/cluster-keys.json)
 ```
 
 Unseal Vault instace `vault-0`
@@ -223,7 +159,7 @@ kubectl exec -n $VAULT_K8S_NAMESPACE vault-0 -- vault operator unseal $VAULT_UNS
 Export root token
 
 ```bash
-export CLUSTER_ROOT_TOKEN=$(cat ${WORKDIR}/cluster-keys.json | jq -r ".root_token")
+export CLUSTER_ROOT_TOKEN=$(cat ${WORKDIR}/files/cluster-keys.json | jq -r ".root_token")
 ```
 
 Activate audit log
@@ -240,12 +176,18 @@ Join & Unseal instace `vault-1`
 
 ```bash
 kubectl exec -n $VAULT_K8S_NAMESPACE -it vault-1 -- /bin/sh 
+```
 
+```bash
 # then
 vault operator raft join -address=https://vault-1.vault-internal:8200 -leader-ca-cert="$(cat /vault/userconfig/vault-ha-tls/vault.ca)" -leader-client-cert="$(cat /vault/userconfig/vault-ha-tls/vault.crt)" -leader-client-key="$(cat /vault/userconfig/vault-ha-tls/vault.key)" https://vault-0.vault-internal:8200
 
 exit
+```
 
+Unseal
+
+```bash
 kubectl exec -n $VAULT_K8S_NAMESPACE -ti vault-1 -- vault operator unseal $VAULT_UNSEAL_KEY
 ```
 
@@ -261,12 +203,16 @@ Join & Unseal instace `vault-2`
 
 ```bash
 kubectl exec -n $VAULT_K8S_NAMESPACE -it vault-2 -- /bin/sh  
+```
 
+```bash
 # then
 vault operator raft join -address=https://vault-2.vault-internal:8200 -leader-ca-cert="$(cat /vault/userconfig/vault-ha-tls/vault.ca)" -leader-client-cert="$(cat /vault/userconfig/vault-ha-tls/vault.crt)" -leader-client-key="$(cat /vault/userconfig/vault-ha-tls/vault.key)" https://vault-0.vault-internal:8200
 
 exit
+```
 
+```bash
 kubectl exec -n $VAULT_K8S_NAMESPACE -ti vault-2 -- vault operator unseal $VAULT_UNSEAL_KEY
 ```
 
@@ -318,18 +264,24 @@ Configure Kubernetes agent injector
 
 ```bash
 kubectl exec -n $VAULT_K8S_NAMESPACE -it vault-0 -- /bin/sh  
+```
 
+```bash
 # then
 vault auth enable kubernetes
 vault write auth/kubernetes/config \
     kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
+```
 
+```bash
 vault policy write internal-app - <<EOF
 path "secret/data/tls/apitest" {
   capabilities = ["read"]
 }
 EOF
+```
 
+```bash
 vault write auth/kubernetes/role/internal-app \
     bound_service_account_names=internal-app \
     bound_service_account_namespaces=default \
@@ -346,42 +298,14 @@ kubectl create sa internal-app
 kubectl get serviceaccounts
 ```
 
-Configure an pod
+Configure a pod
 
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: busybox-vault
-  labels:
-    app: apitest
-spec:
-  selector:
-    matchLabels:
-      app: apitest
-  replicas: 1
-  template:
-    metadata:
-      annotations:
-        vault.hashicorp.com/agent-inject: 'true'
-        vault.hashicorp.com/role: 'internal-app'
-        vault.hashicorp.com/ca-cert: "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-        vault.hashicorp.com/agent-inject-secret-config.txt: 'secret/data/tls/apitest'
-        vault.hashicorp.com/agent-inject-template-config.txt: |
-          {{- with secret "secret/data/tls/apitest" -}}
-          http://{{ .Data.data.username }}:{{ .Data.data.password }}@toto.com
-          {{- end -}}
-      labels:
-        app: apitest
-    spec:
-      containers:
-      - name: busybox
-        image: busybox
-        args:
-        - sleep
-        - "10000"
-EOF
+cat ${WORKDIR}/files/pod.yaml 
+```
+
+```bash
+kubectl apply -f  ${WORKDIR}/files/pod.yaml 
 ```
 
 Check logs
@@ -395,36 +319,42 @@ kubectl logs \
 Patch your deployment
 
 ```bash
-cat <<EOF > ${WORKDIR}/patch.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: busybox-vault
-  labels:
-    app: apitest
-spec:
-  template:
-    spec:
-      # This service account does not have permission to request the secrets.
-      serviceAccountName: internal-app
+cat ${WORKDIR}/files/patch.yaml
+```
 
-EOF
-
+```bash
 kubectl patch deployment busybox-vault --patch-file ${WORKDIR}/patch.yaml
 ```
 
+Check your secret
+
+```bash
 kubectl exec -it busybox-vault-576c5cc4cb-hr6jw -c busybox -- cat /vault/secrets/config.txt
+```
 
+Modify secret
 
+```bash
 kubectl exec -n $VAULT_K8S_NAMESPACE -ti vault-0 -- vault kv put secret/tls/apitest username="apiuser" password="supersecret2"
+```
+
+Check your secret again
+
+```bash
+kubectl exec -it busybox-vault-576c5cc4cb-hr6jw -c busybox -- cat /vault/secrets/config.txt
+```
+
 
 ## Clean Up (only at the end of the training)
 
 Regenerate certs
 
 ```bash
-kubectl delete -f ${WORKDIR}/csr.yaml
+kubectl delete -f ${WORKDIR}/files/csr.yaml
+kubectl delete ns $VAULT_K8S_NAMESPACE
 ```
+
+## Troubleshoot
 
 Restart an instance (ie: vault-0)
 
