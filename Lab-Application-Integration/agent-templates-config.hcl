@@ -23,7 +23,7 @@ cache {
 }
 
 listener "tcp" {
-   address = "127.0.0.1:8007"
+   address = "127.0.0.1:8008"
    tls_disable = true
 }
 

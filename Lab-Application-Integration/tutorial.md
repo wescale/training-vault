@@ -11,9 +11,37 @@
 
 ## Init Lab
 
+
+On first launch only
+
 ```bash
-chmod +x vault-connect.sh
-./vault-connect.sh
+chmod +x ../install-cli.sh
+../install-cli.sh
+```
+
+```bash
+chmod +x ../vault.sh
+../vault.sh
+```
+
+Reconnect to the lab
+
+```bash
+chmod +x ../vault-connect.sh
+../vault-connect.sh
+```
+
+
+Restart from long sleep to the lab (not container or install)
+
+```bash
+chmod +x ../install-cli.sh
+../install-cli.sh
+```
+
+```bash
+chmod +x ../vault-restart.sh
+../vault-restart.sh
 ```
 
 Test your setup
@@ -21,9 +49,17 @@ Test your setup
 ```bash
 export VAULT_ADDR='http://127.0.0.1:8200' 
 vault secrets list -detailed
+vault auth list -detailed
 ```
 
 ## Task 1: Run Vault agent
+
+Install additionnal binaries (consul)
+
+```bash
+chmod +x ./add-consul.sh
+./add-consul.sh
+```
 
 Review App role install
 
@@ -41,16 +77,21 @@ chmod +x setup-approle.sh
 ./setup-approle.sh
 ```
 
-In a new shell, start agent:
+### In a new shell, 
+
+start agent:
 
 ```bash
-cd ~/cloudshell_open/training-vault/Lab-10
+cd ~/cloudshell_open/wescale-training-vault/Lab-Application-Integration
 vault agent -config=agent-config.hcl -log-level=debug
 ```
 
-In a new shell, access agent:
+### In a new shell,
+
+access agent:
 
 ```bash
+cd ~/cloudshell_open/wescale-training-vault/Lab-Application-Integration
 export VAULT_AGENT_ADDR="http://127.0.0.1:8007"
 ```
 
@@ -146,6 +187,8 @@ Open the generated config.yml file to verify its content.
 cat config.yml
 ```
 
+Stop agent from previous shell
+
 ## Task 4:  Use Vault Agent Templates
 
 Consul Template is the client directly interacting with Vault; therefore, you had to pass a client token to Consul Template so that it can interact with Vault. This requires you to operate
@@ -158,11 +201,18 @@ Examine the Vault Agent configuration file
 cat agent-templates-config.hcl
 ```
 
+
+### In the second shell, 
+
 Start the Vault Agent with agent-templates-config.hcl :
 
 ```bash
+export VAULT_ADDR='http://127.0.0.1:8200' 
+export VAULT_AGENT_ADDR="http://127.0.0.1:8008"
 vault agent -config=agent-templates-config.hcl -log-level=debug
 ```
+
+### In the third shell, 
 
 Verify that the secrets are rendered:
 
@@ -176,9 +226,6 @@ Consul Template tool is widely adopted by the Vault users since it allowed appli
 ## Clean Up (only at the end of the training)
 
 ```bash
-docker container rm -f $(docker container ls -aq)
-```
-
-```bash
-sudo rm -rf vault01/
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
 ```
