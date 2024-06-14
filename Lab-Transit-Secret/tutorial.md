@@ -15,11 +15,38 @@
 
 ## Init Lab
 
+
+On first launch only
+
 ```bash
-chmod +x vault-connect.sh
-./vault-connect.sh
+chmod +x ../install-cli.sh
+../install-cli.sh
 ```
 
+```bash
+chmod +x ../vault.sh
+../vault.sh
+```
+
+Reconnect to the lab
+
+```bash
+chmod +x ../vault-connect.sh
+../vault-connect.sh
+```
+
+
+Restart from long sleep to the lab (not container or install)
+
+```bash
+chmod +x ../install-cli.sh
+../install-cli.sh
+```
+
+```bash
+chmod +x ../vault-restart.sh
+../vault-restart.sh
+```
 Test your Vault
 
 ```bash
@@ -148,11 +175,7 @@ Error writing data to transit/rewrap/cards: Error making API request.
 
 ## Clean Up (only at the end of the training)
 
-
 ```bash
-docker container rm -f $(docker container ls -aq)
-```
-
-```bash
-sudo rm -rf vault01/
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
 ```
