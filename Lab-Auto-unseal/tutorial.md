@@ -9,14 +9,34 @@
 * Task 3: Audit the incoming request
 * Task 4: Rekeying & Rotation
 
+## Clean your env
+
+```bash
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
+```
 
 ## Init Lab - Vault Central Server
 
+The first time:
+
 ```bash
-chmod +x vault-connect.sh
-./vault-connect.sh
+chmod +x ../vault.sh
+../vault.sh
 ```
 
+
+Restart from long sleep to the lab (not container or install)
+
+```bash
+chmod +x ../install-cli.sh
+../install-cli.sh
+```
+
+```bash
+chmod +x ../vault-restart.sh
+../vault-restart.sh
+```
 Test your setup
 
 ```bash
@@ -45,8 +65,7 @@ Success! Data written to: transit/keys/autounseal
 
 Edit an autounseal policy
 
-```bash
-tee autounseal.hcl <<EOF
+```hcl
 path "transit/encrypt/autounseal" {
    capabilities = [ "update" ]
 }
@@ -54,7 +73,6 @@ path "transit/encrypt/autounseal" {
 path "transit/decrypt/autounseal" {
    capabilities = [ "update" ]
 }
-EOF
 ```
 
 Create autounseal policy.
@@ -66,7 +84,7 @@ vault policy write autounseal autounseal.hcl
 Create a new token with autounseal policy.
 
 ```bash
-vault token create -policy="autounseal"
+vault token create -orphan -policy="autounseal" -period=24h
 ```
 
 Key                 |Value
@@ -89,9 +107,7 @@ export VAULT_UNSEAL_TOKEN=<unseal_token>
 
 Create a config file for Vault client
 
-```bash
-cat <<EOF > config-vault02.hcl
-
+```hcl
 ui = true
 
 disable_mlock = true
@@ -116,8 +132,6 @@ seal "transit" {
   tls_skip_verify = "true"
   # token = <unseal_token>
 }
-
-EOF
 ```
 
 Start Vault Client (Docker container) and attach to Vault Central's docker network
@@ -128,9 +142,11 @@ docker container run --network pg -e VAULT_TOKEN=${VAULT_UNSEAL_TOKEN}  --cap-ad
 docker network connect pg server02
 ```
 
-Open a new tab then
+### Open a new tab then
 
 ```bash
+cd cloudshell_open/wescale-training-vault/Lab-Auto-unseal/
+
 export VAULT_ADDR=http://127.0.0.1:8100
 vault status
 ```
@@ -164,6 +180,9 @@ Restart your Vault Client container
 
 ```bash
 docker container restart server02
+```
+
+```bash
 docker container logs server02
 ```
 
@@ -172,7 +191,7 @@ docker container logs server02
 Audit the log on Vault central server
 
 ```bash
-sudo tail vault01/file/audit/audit.log | jq
+sudo tail ../vault01/file/audit/audit.log | jq
 ```
 
 
@@ -229,18 +248,21 @@ Restart your Vault Client to ensure everything is ok
 
 ```bash
 docker container restart server02
+```
 
+```bash
 docker container logs server02
 ```
+
 
 ## Clean Up (only at the end of the training)
 
 
 ```bash
-docker container rm -f $(docker container ls -aq)
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
 ```
 
 ```bash
-sudo rm -rf vault01/
 sudo rm -rf vault02/
 ```
