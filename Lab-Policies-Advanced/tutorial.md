@@ -10,12 +10,41 @@
 
 * Challenge: Create and Test Policies
 
+## Clean your env
+
+```bash
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
+```
 
 ## Init Lab
 
+
+On first launch only
+
 ```bash
-chmod +x vault-connect.sh
-./vault-connect.sh
+chmod +x ../vault.sh
+../vault.sh
+```
+
+Reconnect to the lab
+
+```bash
+chmod +x ../vault-connect.sh
+../vault-connect.sh
+```
+
+
+Restart from long sleep to the lab (not container or install)
+
+```bash
+chmod +x ../install-cli.sh
+../install-cli.sh
+```
+
+```bash
+chmod +x ../vault-restart.sh
+../vault-restart.sh
 ```
 
 Test your setup
@@ -31,8 +60,8 @@ In reality, first, you gather policy requirements, and then author policies to m
 
 Let's create the policy file, policies/base.hcl
 
-```bash
-cat <<EOF > policies/base.hcl
+create `policies/base.hcl`
+```hcl
 path "kv/data/training_*" {
   capabilities = ["create", "read"]
 }
@@ -40,7 +69,6 @@ path "kv/data/training_*" {
 path "kv/data/+/apikey" {
   capabilities = ["create", "read", "update", "delete"]
 }
-EOF
 ```
 
 Get help for the vault policy command:
@@ -96,6 +124,13 @@ token_renewable     |true
 token_policies      |["base" "default"]
 identity_policies   |[]
 policies            |["base" "default"]
+
+
+### In a new shell
+
+```bash
+cd ~/cloudshell_open/wescale-training-vault/Lab-Policies-Advanced
+```
 
 Login with token previous created
 
@@ -168,7 +203,7 @@ What happens when you try to write data in kv/training_ path?
 Execute
 
 ```bash
-vault kv put kv/training_ year="2023"
+vault kv put kv/training_ year="2024"
 ```
 
 ## Task 3: Check the token capabilities
@@ -185,10 +220,10 @@ Execute the capabilities command to check permissions on kv/data/training_dev pa
 vault token capabilities kv/data/training_dev
 ```
 
-How about kv/data/splunk/apikey path?
+How about kv/data/wescale/apikey path?
 
 ```bash
-vault token capabilities kv/data/splunk/apikey
+vault token capabilities kv/data/wescale/apikey
 ```
 
 Try another path that is **NOT** permitted by the base policy:
@@ -198,6 +233,82 @@ vault token capabilities kv/data/test
 ```
 
 Log back as root
+
+## Task 4: Advanced policies 
+
+Create pki secret engine and tune it
+
+```bash
+vault secrets enable pki
+
+vault secrets tune -max-lease-ttl=87600h pki
+```
+
+### Test sudo
+
+Create special list pki right
+
+> Create a file `policies/pki.hcl`
+
+```hcl
+# Work with pki secrets engine
+path "pki*" {
+  capabilities = [ "create", "read", "update", "delete", "list", "patch" ]
+}
+```
+
+Test your policy
+
+```bash
+vault policy write pki policies/pki.hcl
+```
+
+Create a token with this policy attach
+
+```bash
+vault token create -policy="pki"
+```
+
+Create a certificatie
+
+```bash
+VAULT_TOKEN=<token> vault write -field=certificate pki/root/generate/internal \
+     common_name="wescale-training.fr" \
+     issuer_name="root-2024" \
+     ttl=87600h > root_2024_ca.crt
+```
+
+Test sudo endpoint
+
+```bash
+curl     --header "X-Vault-Token: hvs.CAESID3rXcHVsDcwI2VripqPExsY5TMYjQc1pGSZS6N-LLnJGh4KHGh2cy42Yk1FQXg1eFpvelBxaURBaXBqWm1zcWE"     --request POST     --data @payload.json     http://127.0.0.1:8200/v1/pki/root/sign-self-issued
+```
+
+add sudo to file `policies/pki.hcl`, update policy (reapply it) and test again
+
+### Explicit deny
+
+create special list lookup right
+
+add to file `policies/pki.hcl`
+
+```hcl
+path "pki/root/sign-self-issued" {
+  capabilities = ["deny"]
+}
+```
+
+```bash
+vault policy write pki policies/pki.hcl
+```
+
+Test sudo endpoint
+
+```bash
+curl     --header "X-Vault-Token: hvs.CAESID3rXcHVsDcwI2VripqPExsY5TMYjQc1pGSZS6N-LLnJGh4KHGh2cy42Yk1FQXg1eFpvelBxaURBaXBqWm1zcWE"     --request POST     --data @payload.json     http://127.0.0.1:8200/v1/pki/root/sign-self-issued
+
+```
+
 
 ## Challenge: 
 
@@ -228,11 +339,7 @@ vault auth list -output-curl-string
 
 ## Clean Up (only at the end of the training)
 
-
 ```bash
-docker container rm -f $(docker container ls -aq)
-```
-
-```bash
-sudo rm -rf vault01/
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
 ```
