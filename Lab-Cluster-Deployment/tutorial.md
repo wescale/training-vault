@@ -13,11 +13,38 @@
 
 ## Init Lab
 
+
+On first launch only
+
 ```bash
-chmod +x vault-connect.sh
-./vault-connect.sh
+chmod +x ../install-cli.sh
+../install-cli.sh
 ```
 
+```bash
+chmod +x ../vault.sh
+../vault.sh
+```
+
+Reconnect to the lab
+
+```bash
+chmod +x ../vault-connect.sh
+../vault-connect.sh
+```
+
+
+Restart from long sleep to the lab (not container or install)
+
+```bash
+chmod +x ../install-cli.sh
+../install-cli.sh
+```
+
+```bash
+chmod +x ../vault-restart.sh
+../vault-restart.sh
+```
 Test your setup
 
 ```bash
@@ -36,6 +63,7 @@ What we will do :
 
 * **vault_4** (http://127.0.0.4:8240) is only started. You will join it to the cluster.
 
+
 ## Task 1: Setup Auto-Unseal server
 
 Initialize vault_1 with transit key
@@ -51,17 +79,15 @@ Test your token
 VAULT_TOKEN=$(cat auto_unseal_token.txt) vault token capabilities transit/encrypt/autounseal
 ```
 
-update
-
 ## Task 2: Create HA Cluster - with Integrated storage
 
 Start vault_2
 
-chmod 0777 $(pwd)/vault_2/file/raft-vault
 
 ```bash
 sudo mkdir -p $(pwd)/vault_2/file/raft-vault
 sudo chown 100:1000 $(pwd)/vault_2/file/raft-vault
+
 docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_2 -d -p 8220:8220 -p 8221:8221 -v $(pwd)/vault2-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_2/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
 ```
 
@@ -73,14 +99,17 @@ docker container logs vault_2
 
 Init & Test you server
 
+- save your initial config here: `key-vault2.txt`
+
 [Solution](solutions/task2-vault2.md)
 
 ## Task 3: Join Node Members
 
 Start vault_3
 
-Port Addr : 8230
-Cluster Port Addr: 8231
+> Port Addr : 8230
+> 
+> Cluster Port Addr: 8231
 
 [Solution](solutions/task3-vault3.md)
 
@@ -112,13 +141,17 @@ VAULT_TOKEN=$(grep 'Initial Root Token:' key-vault2.txt | awk '{print $NF}') VAU
 
 ## Task 4: Snapshot management
 
+### Leader snapshot
+
 Take a snapshot of your cluster
 
 ```bash
 VAULT_TOKEN=$(grep 'Initial Root Token:' key-vault2.txt | awk '{print $NF}') VAULT_ADDR=http://127.0.0.1:8220 vault operator raft snapshot save demo.snapshot
 ```
 
-Restart vault_2 and try take snapshot
+### Non leader snapshot
+
+Restart vault_2 and try take snapshot 
 
 ```bash
 docker container restart vault_2
@@ -126,11 +159,11 @@ docker container restart vault_2
 VAULT_TOKEN=$(grep 'Initial Root Token:' key-vault2.txt | awk '{print $NF}') VAULT_ADDR=http://127.0.0.1:8220 vault operator raft snapshot save demo.snapshot
 ```
 
-Find the leader and take the snapshot
+> Find the leader and take the snapshot
 
 [Solution](solutions/task4-snapshot.md)
 
-> Restore snapshot
+### Restore snapshot
 
 Simulate data loss
 
@@ -158,6 +191,8 @@ VAULT_TOKEN=$(grep 'Initial Root Token:' key-vault2.txt | awk '{print $NF}') VAU
 ## Task 5: Recovery mode 
 
 Simulate an outage (stop all instances)
+
+Stop the followers
 
 ```bash
 docker container stop vault_2
