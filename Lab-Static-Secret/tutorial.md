@@ -35,8 +35,8 @@ export VAULT_ADDR='http://127.0.0.1:8200'
 ## Start Vault Server (1st time only)
 
 ```bash
-chmod +x vault.sh
-./vault.sh
+chmod +x ../vault.sh
+../vault.sh
 ```
 
 List secrets
@@ -182,11 +182,7 @@ Visit UI to show your secret
 
 ## Clean Up (only at the end of the training)
 
-
 ```bash
-docker container rm -f $(docker container ls -aq)
-```
-
-```bash
-sudo rm -rf vault01/
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
 ```

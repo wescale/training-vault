@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-vault
+  labels:
+    app: apitest
+spec:
+  selector:
+    matchLabels:
+      app: apitest
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: 'internal-app'
+        vault.hashicorp.com/ca-cert: "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+        vault.hashicorp.com/agent-inject-secret-config.txt: 'secret/data/tls/apitest'
+        vault.hashicorp.com/agent-inject-template-config.txt: |
+          {{- with secret "secret/data/tls/apitest" -}}
+          http://{{ .Data.data.username }}:{{ .Data.data.password }}@toto.com
+          {{- end -}}
+      labels:
+        app: apitest
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        args:
+        - sleep
+        - "10000"

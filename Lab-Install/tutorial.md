@@ -8,6 +8,13 @@
 * Task 2: Connect to Vault UI
 * Task 3: Explorer K/V Secrets Engine
 
+## Clean your env
+
+```bash
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
+```
+
 ## Install Vault with Package Manager
 
 ```bash
@@ -23,7 +30,7 @@ sudo apt update
 Install Vault
 
 ```bash
-sudo apt install vault=1.15.3-1
+sudo apt install vault=1.16.3-1
 ```
 
 Start Vault server (with config)
@@ -35,7 +42,9 @@ sudo vault server -config=vault.hcl 2>&1 &
 ```bash
 export VAULT_ADDR='http://127.0.0.1:8200' 
 ```
-Then open [http://127.0.0.1:8200](http://127.0.0.1:8200)
+
+![update cloudshell port](cloudshell-port.png)
+
 
 ## Init Vault
 
@@ -62,7 +71,8 @@ export VAULT_ADDR='http://127.0.0.1:8200'
 vault operator init -key-shares=1 -key-threshold=1 > key.txt
 ```
 
-refresh [http://127.0.0.1:8200]()
+> refresh UI
+
 
 Unseal Vault
 
@@ -107,7 +117,9 @@ sudo apt install tree
 
 ```bash
 sudo tree /opt/vault/data/logical
+```
 
+```
 /opt/vault/data/logical
 ├── 6e3d6b47-eb2e-287c-3d8a-2d4b93123c22
 │   └── 0dc5e068-722e-9897-c4f6-cddb340fccd8
@@ -138,7 +150,11 @@ sudo tree /opt/vault/data/logical
             └── _c1b5a5cb-93db-7396-ba9e-b964205b3e9e
 
 14 directories, 13 files
+```
 
+navigate in folder
+
+```bash
 sudo cat /opt/vault/data/logical/6e3d6b47-eb2e-287c-3d8a-2d4b93123c22/0dc5e068-722e-9897-c4f6-cddb340fccd8/versions/457/_211f9ca7d28d51418a45effceaea489748122252230e869a2ebd1878939c0
 
 echo "AAAAAQLEdUIhb2Jn0k4arkffN1gQPL0tLDQhKfrw0T7bTJrsNjzEtmJ+vq3KOrXa80KPOow1k23/xZSqzT3sYQ==" | base64 -d

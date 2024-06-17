@@ -11,11 +11,38 @@
 
 ## Init Lab
 
+
+On first launch only
+
 ```bash
-chmod +x vault-connect.sh
-./vault-connect.sh
+chmod +x ../install-cli.sh
+../install-cli.sh
 ```
 
+```bash
+chmod +x ../vault.sh
+../vault.sh
+```
+
+Reconnect to the lab
+
+```bash
+chmod +x ../vault-connect.sh
+../vault-connect.sh
+```
+
+
+Restart from long sleep to the lab (not container or install)
+
+```bash
+chmod +x ../install-cli.sh
+../install-cli.sh
+```
+
+```bash
+chmod +x ../vault-restart.sh
+../vault-restart.sh
+```
 
 ```bash
 export VAULT_ADDR='http://127.0.0.1:8200' 
@@ -47,7 +74,7 @@ vault operator generate-root -init -otp=$(cat otp.txt) -format=json \
 > Nonce have to be distribued to all unseal key admins
 
 ```bash
-vault operator generate-root -nonce=$(cat nonce.txt) $(grep 'Key 1:' key.txt | awk '{print $NF}')
+vault operator generate-root -nonce=$(cat nonce.txt) $(grep 'Key 1:' ../vault-key.txt | awk '{print $NF}')
 ```
 
   - | -
@@ -95,7 +122,7 @@ vault operator rekey -init -key-shares=3 -key-threshold=2 \
 Because we have only one key
 
 ```bash
-vault operator rekey -nonce=$(cat nonce.txt) $(grep 'Key 1:' key.txt | awk '{print $NF}')
+vault operator rekey -nonce=$(cat nonce.txt) $(grep 'Key 1:' ../vault-key.txt | awk '{print $NF}')
 ```
 
 ## Task 3: Rotate the encryption key
@@ -114,9 +141,6 @@ vault operator rotate
 ## Clean Up (only at the end of the training)
 
 ```bash
-docker container rm -f $(docker container ls -aq)
-```
-
-```bash
-sudo rm -rf vault01/
+chmod +x ../cleanup-install.sh
+../cleanup-install.sh
 ```
