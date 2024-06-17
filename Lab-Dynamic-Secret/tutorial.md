@@ -63,7 +63,7 @@ vault path-help database/
 
 Configure 
 
-```bash
+```txt
 vault write database/config/postgresql \
 plugin_name="postgresql-database-plugin" \
 allowed_roles="*" \
