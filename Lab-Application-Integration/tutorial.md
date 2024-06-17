@@ -82,7 +82,7 @@ chmod +x setup-approle.sh
 start agent:
 
 ```bash
-cd ~/cloudshell_open/wescale-training-vault/Lab-Application-Integration
+cd ~/cloudshell_open/training-vault/Lab-Application-Integration
 vault agent -config=agent-config.hcl -log-level=debug
 ```
 
@@ -91,7 +91,7 @@ vault agent -config=agent-config.hcl -log-level=debug
 access agent:
 
 ```bash
-cd ~/cloudshell_open/wescale-training-vault/Lab-Application-Integration
+cd ~/cloudshell_open/training-vault/Lab-Application-Integration
 export VAULT_AGENT_ADDR="http://127.0.0.1:8007"
 ```
 

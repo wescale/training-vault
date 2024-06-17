@@ -129,7 +129,7 @@ policies            |["base" "default"]
 ### In a new shell
 
 ```bash
-cd ~/cloudshell_open/wescale-training-vault/Lab-Policies-Advanced
+cd ~/cloudshell_open/training-vault/Lab-Policies-Advanced
 ```
 
 Login with token previous created
