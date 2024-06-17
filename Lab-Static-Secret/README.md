@@ -7,7 +7,7 @@ Click the button below to start the exercise.
 and
 
 ```bash
-cd ~/cloudshell_open/wescale-training-vault/Lab-Static-Secret
+cd ~/cloudshell_open/training-vault/Lab-Static-Secret
 
 teachme tutorial.md
 ```

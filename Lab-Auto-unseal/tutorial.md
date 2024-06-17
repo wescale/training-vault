@@ -145,7 +145,7 @@ docker network connect pg server02
 ### Open a new tab then
 
 ```bash
-cd cloudshell_open/wescale-training-vault/Lab-Auto-unseal/
+cd cloudshell_open/training-vault/Lab-Auto-unseal/
 
 export VAULT_ADDR=http://127.0.0.1:8100
 vault status
