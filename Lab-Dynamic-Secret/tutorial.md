@@ -205,9 +205,11 @@ Verify and Disconnect
 
 
 > Lease id can be found when you read creds !
+choose your lease id path
 
-
+```txt
 export my_pg_lease="database/creds/readonly/<adapt>"
+```
 
 Renew lease
 
