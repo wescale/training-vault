@@ -7,7 +7,7 @@ Restart the recovery nodes
 ```bash
 docker container rm -f vault_3
 
-docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_3 -d -p 8230:8230 -p 8231:8231 -v $(pwd)/vault3-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_3/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
+docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_3 -d -p 8230:8230 -p 8231:8231 -v $(pwd)/vault3-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_3/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.16.2 vault server -config=/vault/config/vault.hcl
 ```
 
 Check logs

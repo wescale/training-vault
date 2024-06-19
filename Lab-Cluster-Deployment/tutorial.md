@@ -88,7 +88,7 @@ Start vault_2
 sudo mkdir -p $(pwd)/vault_2/file/raft-vault
 sudo chown 100:1000 $(pwd)/vault_2/file/raft-vault
 
-docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_2 -d -p 8220:8220 -p 8221:8221 -v $(pwd)/vault2-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_2/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
+docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_2 -d -p 8220:8220 -p 8221:8221 -v $(pwd)/vault2-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_2/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.16.2 vault server -config=/vault/config/vault.hcl
 ```
 
 Check logs
@@ -210,7 +210,7 @@ Delete container 3 to pass it in recovery mode
 ```bash
 docker container rm vault_3
 
-docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_3 -d -p 8230:8230 -p 8231:8231 -v $(pwd)/vault3-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_3/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.12.4 vault server -recovery -config=/vault/config/vault.hcl
+docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_3 -d -p 8230:8230 -p 8231:8231 -v $(pwd)/vault3-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_3/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.16.2 vault server -recovery -config=/vault/config/vault.hcl
 ```
 
 Check the logs & Status

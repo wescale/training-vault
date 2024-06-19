@@ -7,7 +7,7 @@ Start
 ```bash
 sudo mkdir -p $(pwd)/vault_4/file/raft-vault
 sudo chown 100:1000 $(pwd)/vault_4/file/raft-vault
-docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_4 -d -p 8240:8240 -p 8241:8241 -v $(pwd)/vault4-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_4/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
+docker container run --network pg  --cap-add IPC_LOCK -e VAULT_TOKEN=$(cat auto_unseal_token.txt) --name vault_4 -d -p 8240:8240 -p 8241:8241 -v $(pwd)/vault4-config.hcl:/vault/config/vault.hcl -v $(pwd)/vault_4/file/raft-vault:/vault/file/raft-vault hashicorp/vault:1.16.2 vault server -config=/vault/config/vault.hcl
 ```
 
 ```bash
