@@ -20,6 +20,8 @@ What we will not do
 
 ## Init Lab
 
+../cleanup-install.sh
+
 Verify the connection to your Kubernetes cluster
 
 ```bash
@@ -40,13 +42,13 @@ helm search repo hashicorp/vault
 Init your folder
 
 ```bash
-mkdir -p tmp/vault
+mkdir -p tmp/vault/files
 
 export VAULT_K8S_NAMESPACE="vault-master" \
 export VAULT_HELM_RELEASE_NAME="vault" \
 export VAULT_SERVICE_NAME="vault-internal" \
 export K8S_CLUSTER_NAME="cluster.local" \
-export WORKDIR=$(pwd)/tmp/vault
+export WORKDIR=$(pwd)
 
 ```
 
@@ -178,8 +180,9 @@ Join & Unseal instace `vault-1`
 kubectl exec -n $VAULT_K8S_NAMESPACE -it vault-1 -- /bin/sh 
 ```
 
+then
+
 ```bash
-# then
 vault operator raft join -address=https://vault-1.vault-internal:8200 -leader-ca-cert="$(cat /vault/userconfig/vault-ha-tls/vault.ca)" -leader-client-cert="$(cat /vault/userconfig/vault-ha-tls/vault.crt)" -leader-client-key="$(cat /vault/userconfig/vault-ha-tls/vault.key)" https://vault-0.vault-internal:8200
 
 exit
@@ -202,11 +205,12 @@ kubectl exec -n $VAULT_K8S_NAMESPACE vault-0 -- vault operator raft list-peers
 Join & Unseal instace `vault-2`
 
 ```bash
-kubectl exec -n $VAULT_K8S_NAMESPACE -it vault-2 -- /bin/sh  
+kubectl exec -n vault-master -it vault-2 -- /bin/sh  
 ```
 
+then
+
 ```bash
-# then
 vault operator raft join -address=https://vault-2.vault-internal:8200 -leader-ca-cert="$(cat /vault/userconfig/vault-ha-tls/vault.ca)" -leader-client-cert="$(cat /vault/userconfig/vault-ha-tls/vault.crt)" -leader-client-key="$(cat /vault/userconfig/vault-ha-tls/vault.key)" https://vault-0.vault-internal:8200
 
 exit
@@ -255,7 +259,7 @@ kubectl -n $VAULT_K8S_NAMESPACE port-forward service/vault 8200:8200
 In the previous terminal
 
 ```bash
-curl --cacert $WORKDIR/vault.ca \
+curl --cacert $WORKDIR/files/vault.ca \
    --header "X-Vault-Token: $CLUSTER_ROOT_TOKEN" \
    https://127.0.0.1:8200/v1/secret/data/tls/apitest | jq .data.data
 ```

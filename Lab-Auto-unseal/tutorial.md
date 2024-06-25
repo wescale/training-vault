@@ -137,7 +137,7 @@ seal "transit" {
 Start Vault Client (Docker container) and attach to Vault Central's docker network
 
 ```bash
-docker container run --network pg -e VAULT_TOKEN=${VAULT_UNSEAL_TOKEN}  --cap-add IPC_LOCK --name server02 -d -p 8100:8100 -v $(pwd)/config-vault02.hcl:/vault/config/vault.hcl -v $(pwd)/vault02/file:/vault/file hashicorp/vault:1.12.4 vault server -config=/vault/config/vault.hcl
+docker container run --network pg -e VAULT_TOKEN=${VAULT_UNSEAL_TOKEN}  --cap-add IPC_LOCK --name server02 -d -p 8100:8100 -v $(pwd)/config-vault02.hcl:/vault/config/vault.hcl -v $(pwd)/vault02/file:/vault/file hashicorp/vault:1.16.2 vault server -config=/vault/config/vault.hcl
 
 docker network connect pg server02
 ```

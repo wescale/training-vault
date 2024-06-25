@@ -87,12 +87,12 @@ echo '
 "organization": "WeScale",
 "region": "FR-West3"
 }
-' | sudo tee vault01/file/data.json
+' | sudo tee data.json
 
 ```
 
 ```bash
-vault kv put secret/company @vault01/file/data.json
+vault kv put secret/company @data.json
 ```
 
 ```bash
